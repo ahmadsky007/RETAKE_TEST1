@@ -1,21 +1,18 @@
-using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Services.Implementations;
-using WebApplication1.Services.Interfaces;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CarRentalDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+// Register service
 builder.Services.AddScoped<IClientService, ClientService>();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -24,6 +21,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapControllers();
 
+app.MapControllers();
 app.Run();

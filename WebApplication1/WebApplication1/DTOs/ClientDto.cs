@@ -1,10 +1,10 @@
-namespace WebApplication1.DTO;
+namespace WebApplication1.DTOs;
 
 public class ClientDto
 {
-    public int Id { get; set; }
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public string Address { get; set; } = null!;
+    public int ID { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
     public List<CarRentalDto> Rentals { get; set; } = new();
 }

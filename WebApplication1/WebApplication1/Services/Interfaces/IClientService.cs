@@ -1,9 +1,9 @@
-using WebApplication1.DTO;
+using WebApplication1.DTOs;
 
-namespace WebApplication1.Services.Interfaces;
+namespace WebApplication1.Services;
 
 public interface IClientService
 {
-    Task<ClientDto?> GetClientByIdAsync(int clientId);
-    Task<bool> AddClientWithRentalAsync(CreateClientRequest request);
+    Task<ClientDto?> GetClientWithRentalsAsync(int clientId);
+    Task<bool> CreateClientWithRentalAsync(CreateClientRequest request);
 }

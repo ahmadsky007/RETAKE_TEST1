@@ -1,6 +1,8 @@
-using WebApplication1.DTO;
-using WebApplication1.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DTOs;
+using WebApplication1.Services;
+
+namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,25 +15,27 @@ public class ClientsController : ControllerBase
         _clientService = clientService;
     }
 
-    
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetClientById(int id)
+    [HttpGet("{clientId}")]
+    public async Task<IActionResult> GetClient(int clientId)
     {
-        var client = await _clientService.GetClientByIdAsync(id);
+        var client = await _clientService.GetClientWithRentalsAsync(clientId);
         if (client == null)
-            return NotFound();
+        {
+            return NotFound($"Client with ID {clientId} not found.");
+        }
 
         return Ok(client);
     }
 
-    // POST api/clients
     [HttpPost]
-    public async Task<IActionResult> AddClientWithRental([FromBody] CreateClientRequest request)
+    public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request)
     {
-        var success = await _clientService.AddClientWithRentalAsync(request);
-        if (!success)
-            return BadRequest("Car with given ID does not exist.");
+        var result = await _clientService.CreateClientWithRentalAsync(request);
+        if (!result)
+        {
+            return BadRequest("Invalid data or car not found.");
+        }
 
-        return Created("", null);
+        return Created("", null); // Optionally add a location URI or ID
     }
 }
